@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Fake Biner</title>
+  <style>
+    *, html, body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body, .container, #userInput {
+      width: 100%;
+      height: 100%;
+    }
+    body {
+      background-color: #121212;
+      overflow: hidden;
+    }
+    #userInput {
+      background-color: transparent;
+      color: green;
+      padding: 0.2rem;
+      border: none;
+      outline: none;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <textarea id="userInput" oninput="handleInput()" placeholder="Enter to start and stop generate biner.."></textarea>
+  </div>
+  <script>
+    let userIn = document.getElementById("userInput");
+    let interval = null;
+    let enter = false;
+    
+    function handleInput(){
+      userIn.value = userIn.value.slice(0, 0);
+    }
+    
+    userIn.addEventListener("keydown", (e) => {
+    //  console.log(userIn.scrollTop + ", " + userIn.scrollHeight)
+      if(e.key === "Enter" && !enter){
+        e.preventDefault();
+        generateBiner();
+        enter = true;
+    //   console.log("Enter is detected");
+      } else if(e.key === "Enter" && enter){
+        e.preventDefault();
+        cancelAnimationFrame(interval);
+        enter = false;
+      }
+    })
+    
+    function generateBiner(){
+      for(let i = 0; i < 10; i++){
+        let biner = Math.round(Math.random() * 1);
+        userIn.value = userIn.value + biner;
+      }
+      userIn.scrollTop = userIn.scrollHeight;
+      interval = requestAnimationFrame(generateBiner);
+    }
+  </script>
+</body>
+</html>
